@@ -4,5 +4,4 @@ streamlit
 pandas_profiling
 numpy
 streamlit_pandas_profiling
-ProfileReport
-st_profile_report
+
