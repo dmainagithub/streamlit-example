@@ -1,38 +1,56 @@
-from collections import namedtuple
-import altair as alt
-import math
+import numpy as np
 import pandas as pd
 import streamlit as st
-
-"""
-# Welcome to Streamlit!
-
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
-
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
-
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+from pandas_profiling import ProfileReport
+from streamlit_pandas_profiling import st_profile_report
 
 
-with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
+# Web App Title
+st.markdown('''
+# **OVC Data Visualization App**
+**Credit:** App built in `Python` + `Streamlit` by [Daniel Maina]
+---
+''')
 
-    Point = namedtuple('Point', 'x y')
-    data = []
 
-    points_per_turn = total_points / num_turns
 
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
+# Upload CSV data
+with st.sidebar.header('1. Upload your CSV data'):
+    uploaded_file = st.sidebar.file_uploader("Upload your input CSV file", type=["csv"])
+    st.sidebar.markdown("""
+    Please download the **example file here** to a local folder then load it into this platform for data visualization:
+[Example CSV input file](https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv)
+""")
 
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
+
+# Pandas Profiling Report
+if uploaded_file is not None:
+    @st.cache
+    def load_csv():
+        csv = pd.read_csv(uploaded_file)
+        return csv
+    df = load_csv()
+    pr = ProfileReport(df, explorative=True)
+    st.header('**Input DataFrame**')
+    st.write(df)
+    st.write('---')
+    st.header('**Pandas Profiling Report**')
+    st_profile_report(pr)
+else:
+    st.info('Awaiting for CSV file to be uploaded.')
+    if st.button('Press to use Example Dataset'):
+        # Example data
+        @st.cache
+        def load_data():
+            a = pd.DataFrame(
+                np.random.rand(100, 5),
+                columns=['a', 'b', 'c', 'd', 'e']
+            )
+            return a
+        df = load_data()
+        pr = ProfileReport(df, explorative=True)
+        st.header('**Input DataFrame**')
+        st.write(df)
+        st.write('---')
+        st.header('**Pandas Profiling Report**')
+        st_profile_report(pr)
