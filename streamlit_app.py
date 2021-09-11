@@ -8,7 +8,7 @@ from streamlit_pandas_profiling import st_profile_report
 # Web App Title
 st.markdown('''
 # **OVC Data Visualization App**
-**Credit:** App built in `Python` + `Streamlit` by [Daniel Maina]
+App built using `PYTHON` & `STREAMLIT` by [Daniel Maina]
 ---
 ''')
 
