@@ -30,12 +30,12 @@ if uploaded_file is not None:
         csv = pd.read_csv(uploaded_file)
         return csv
     df = load_csv()
-    pr = ProfileReport(df, explorative=True)
+    # pr = ProfileReport(df, explorative=True)
     st.header('**Input DataFrame**')
     st.write(df)
     st.write('---')
     st.header('**Pandas Profiling Report**')
-    st_profile_report(pr)
+    # st_profile_report(pr)
 else:
     st.info('Awaiting for CSV file to be uploaded.')
     if st.button('Press to use Example Dataset'):
