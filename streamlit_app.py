@@ -4,6 +4,11 @@ import streamlit as st
 # from pandas_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 
+import plotly.express as px
+
+from dash import dcc
+from dash import html
+from dash.dependencies import Input, Output
 
 # Web App Title
 st.markdown('''
@@ -36,6 +41,33 @@ if uploaded_file is not None:
     st.write('---')
     st.header('**Pandas Profiling Report**')
     # st_profile_report(pr)
+    
+    app.layout = html.Div([
+    
+    html.H1("Web Application Dashboards with Dash", style={'text-align':'center'}),
+    
+        dcc.Dropdown(id="slct_year",
+                     options=[
+                         {"label":"2015", "value":2015},
+                         {"label":"2016", "value":2016},
+                         {"label":"2017", "value":2017},
+                         {"label":"2016", "value":2016}],
+                     multi=False,
+                     value=2015,
+                     style={'width':"40%"}
+        ),
+
+
+        html.Div(id='output_container', children=[]),    
+        html.Br(),
+
+        dcc.Graph(id='my_bee_map', figure={})
+
+    ])
+
+    if __name__ == '__main__':
+        app.run_server(debug=True)
+    
 else:
     st.info('Awaiting for CSV file to be uploaded.')
     if st.button('Press to use Example Dataset'):
