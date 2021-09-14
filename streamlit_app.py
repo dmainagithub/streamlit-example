@@ -27,6 +27,34 @@ with st.sidebar.header('1. Upload your CSV data'):
 [Example CSV input file](https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv)
 """)
 
+app.layout = html.Div([
+    
+html.H1("Web Application Dashboards with Dash", style={'text-align':'center'}),
+    
+   dcc.Dropdown(id="slct_year",
+                 options=[
+                    {"label":"2015", "value":2015},
+                    {"label":"2016", "value":2016},
+                    {"label":"2017", "value":2017},
+                    {"label":"2016", "value":2016}],
+                multi=False,
+                value=2015,
+                 style={'width':"40%"}
+    ),
+
+
+    html.Div(id='output_container', children=[]),    
+    html.Br(),
+
+    dcc.Graph(id='my_bee_map', figure={})
+
+])
+
+if __name__ == '__main__':
+     app.run_server(debug=True)
+    
+    
+
 
 # Pandas Profiling Report
 if uploaded_file is not None:
@@ -42,31 +70,7 @@ if uploaded_file is not None:
     st.header('**Pandas Profiling Report**')
     # st_profile_report(pr)
     
-    app.layout = html.Div([
-    
-    html.H1("Web Application Dashboards with Dash", style={'text-align':'center'}),
-    
-        dcc.Dropdown(id="slct_year",
-                     options=[
-                         {"label":"2015", "value":2015},
-                         {"label":"2016", "value":2016},
-                         {"label":"2017", "value":2017},
-                         {"label":"2016", "value":2016}],
-                     multi=False,
-                     value=2015,
-                     style={'width':"40%"}
-        ),
 
-
-        html.Div(id='output_container', children=[]),    
-        html.Br(),
-
-        dcc.Graph(id='my_bee_map', figure={})
-
-    ])
-
-    if __name__ == '__main__':
-        app.run_server(debug=True)
     
 else:
     st.info('Awaiting for CSV file to be uploaded.')
