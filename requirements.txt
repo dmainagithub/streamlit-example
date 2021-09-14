@@ -4,4 +4,4 @@ streamlit
 pandas_profiling
 numpy
 streamlit_pandas_profiling
-
+dash
