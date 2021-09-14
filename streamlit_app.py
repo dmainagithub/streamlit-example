@@ -26,7 +26,10 @@ with st.sidebar.header('1. Upload your CSV data'):
     Please download the **example file here** to a local folder then load it into this platform for data visualization:
 [Example CSV input file](https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv)
 """)
-    
+colors = {
+    'background': '#111111',
+    'text': '#7FDBFF'
+}    
 df = pd.DataFrame({
     "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
     "Amount": [4, 1, 2, 2, 4, 5],
