@@ -63,7 +63,7 @@ html.H1("Web Application Dashboards with Dash", style={'text-align':'center'}),
     html.Div(id='output_container', children=[]),    
     html.Br(),
 
-    dcc.Graph(id='my_bee_map', figure={fig})
+    dcc.Graph(id='my_bee_map', figure=fig)
 
 ])
 
