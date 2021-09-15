@@ -17,7 +17,7 @@ app = dash.Dash(__name__)
 
 # ----------------------------------------------------------------------------------------------------
 # Import and clean data (importing csv into pandas)
-df = pd.read_csv(r'data/intro_bees.csv')
+df = pd.read_csv(r'https://raw.githubusercontent.com/dmainagithub/my_datasets/main/intro_bees.csv')
 
 df = df.groupby(['State', 'ANSI', 'Affected by', 'Year', 'state_code'])[['Pct of Colonies Impacted']].mean()
 df.reset_index(inplace=True)
