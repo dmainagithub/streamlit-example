@@ -28,6 +28,7 @@ with st.sidebar.header('1. Upload your CSV data'):
     Please download the **example file here** to a local folder then load it into this platform for data visualization:
 [Example CSV input file](https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv)
 """)
+    df2 = pd.read_csv(r'https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv')
 # Pandas Profiling Report
 if uploaded_file is not None:
     @st.cache
@@ -41,6 +42,7 @@ if uploaded_file is not None:
     st.write('---')
     st.header('**Pandas Profiling Report**')
     # st_profile_report(pr)
+    df
     
 
     
@@ -49,19 +51,35 @@ else:
     if st.button('Press to use Example Dataset'):
         # Example data
         @st.cache
+        def load_data(nrows):
+            data = pd.read_csv('https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv', nrows=nrows)
+            return data
+
+
+        @st.cache
         def load_data():
-            a = pd.DataFrame(
-                np.random.rand(100, 5),
-                columns=['a', 'b', 'c', 'd', 'e']
-            )
+            # a = pd.DataFrame(
+            #     np.random.rand(100, 5),
+            #     columns=['a', 'b', 'c', 'd', 'e']
+            # )
+            a = pd.read_csv(r'https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv')
             return a
         df = load_data()
-        pr = ProfileReport(df, explorative=True)
+        merged_dataset = pd.read_csv(r'https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv')
+        # pr = ProfileReport(df, explorative=True)
         st.header('**Input DataFrame**')
-        st.write(df)
+        processed_df = pd.crosstab(merged_dataset['EducationLevel'],merged_dataset['viral_load_test_results'], margins=True).apply(lambda r: r/len(merged_dataset)*100, axis=1)
+        st.write(processed_df)
         st.write('---')
         st.header('**Pandas Profiling Report**')
-        st_profile_report(pr)
+        st.write(processed_df.head(50))
+        # st.bar_chart(df2['age_cat_cg'])
+        st.write('Another Example')
+        processed_df.hist()
+        st.bar_chart(processed_df['Suppressed'])
+        df_two = pd.DataFrame(merged_dataset[:200], columns=['Age','EducationLevel','DistancetoFacility'])
+        st.pyplot()
+        # st_profile_report(pr)
 
         
 # app = dash.Dash(__name__)
