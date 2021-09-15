@@ -65,7 +65,7 @@ html.H1("Web Application Dashboards with Dash", style={'text-align':'center'}),
 
     dcc.Graph(
         id='my_bee_map', 
-        figure=fig
+        figure=[]
     )
 
 ])
