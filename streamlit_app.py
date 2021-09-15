@@ -48,42 +48,44 @@ if uploaded_file is not None:
 
     
 else:
-    st.info('Awaiting for CSV file to be uploaded.')
-    if st.button('Press to use Example Dataset'):
-        # Example data
-        @st.cache
-        def load_data(nrows):
-            data = pd.read_csv('https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv', nrows=nrows)
-            return data
+    # st.info('Awaiting for CSV file to be uploaded.')
+    # if st.button('Press to use Example Dataset'):
+    # Example data
 
-        @st.cache
-        def load_data():
-            # a = pd.DataFrame(
-            #     np.random.rand(100, 5),
-            #     columns=['a', 'b', 'c', 'd', 'e']
-            # )
-            a = pd.read_csv('https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv')
-            return a
-        df = load_data()
-        merged_dataset = pd.read_csv('https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv')
-        # pr = ProfileReport(df, explorative=True)
-        st.header('**Input DataFrame**')
-        processed_df = pd.crosstab(merged_dataset['EducationLevel'],merged_dataset['viral_load_test_results'], margins=True).apply(lambda r: r/len(merged_dataset)*100, axis=1)
-        st.write(processed_df)
-        st.write('---')
-        st.header('**Pandas Profiling Report**')
-        st.write(processed_df.head(50))
-        # st.bar_chart(df2['age_cat_cg'])
-        st.subheader('Education Status & VL Suppression')
-        processed_df.hist()
-        st.bar_chart(processed_df['Suppressed'])
-        # df_two = pd.DataFrame(merged_dataset[:200], columns=['Age','EducationLevel','DistancetoFacility'])
+    @st.cache
+    def load_data(nrows):
+        data = pd.read_csv('https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv', nrows=nrows)
+        return data
 
-        fig, ax = plt.subplots()
-
-
-        st.pyplot(fig)
-        # st_profile_report(pr)
+    @st.cache
+    def load_data():
+        # a = pd.DataFrame(
+        #     np.random.rand(100, 5),
+        #     columns=['a', 'b', 'c', 'd', 'e']
+        # )
+        a = pd.read_csv('https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv')
+        return a
+    df = load_data()
+    merged_dataset = pd.read_csv('https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv')
+    # pr = ProfileReport(df, explorative=True)
+    st.header('**Input DataFrame**')
+    processed_df = pd.crosstab(merged_dataset['EducationLevel'],merged_dataset['viral_load_test_results'], margins=True).apply(lambda r: r/len(merged_dataset)*100, axis=1)
+    processed_df = processed_df[:6]
+    st.write(processed_df)
+    st.write('---')
+    st.header('**Pandas Profiling Report**')
+    # st.bar_chart(df2['age_cat_cg'])
+    st.subheader('Suppressed Group')
+    processed_df['Suppressed'].hist()
+    st.bar_chart(processed_df['Suppressed'])
+    st.line_chart(processed_df['Suppressed'])
+    st.subheader('Unsuppressed Group')
+    st.bar_chart(processed_df['Unsuppressed'])
+    # df_two = pd.DataFrame(merged_dataset[:200], columns=['Age','EducationLevel','DistancetoFacility'])
+    
+    fig, ax = plt.subplots()
+    st.pyplot(fig)
+    # st_profile_report(pr)
 
         
 # app = dash.Dash(__name__)
