@@ -11,9 +11,6 @@ from dash import dcc
 from dash import html
 from dash.dependencies import Input, Output
 
-
-app = dash.Dash(__name__)
-
 # Web App Title
 st.markdown('''
 # **OVC Data Visualization App**
@@ -30,56 +27,6 @@ with st.sidebar.header('1. Upload your CSV data'):
     Please download the **example file here** to a local folder then load it into this platform for data visualization:
 [Example CSV input file](https://raw.githubusercontent.com/dmainagithub/my_datasets/main/viral_load_results.csv)
 """)
-colors = {
-    'background': '#111111',
-    'text': '#7FDBFF'
-}    
-df = pd.DataFrame({
-    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-    "Amount": [4, 1, 2, 2, 4, 5],
-    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-})    
-
-fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
-
-fig.update_layout(
-    plot_bgcolor=colors['background'],
-    paper_bgcolor=colors['background'],
-    font_color=colors['text']
-)
-    
-app.layout = html.Div([
-    
-html.H1("Web Application Dashboards with Dash", style={'text-align':'center'}),
-    
-   dcc.Dropdown(id="slct_year",
-                 options=[
-                    {"label":"2015", "value":2015},
-                    {"label":"2016", "value":2016},
-                    {"label":"2017", "value":2017},
-                    {"label":"2016", "value":2016}],
-                multi=False,
-                value=2015,
-                 style={'width':"40%"}
-    ),
-
-
-    html.Div(id='output_container', children=[]),    
-    html.Br(),
-
-    dcc.Graph(
-        id='my_bee_map', 
-        figure=fig
-    )
-
-])
-
-if __name__ == '__main__':
-     app.run_server(debug=True)
-    
-    
-
-
 # Pandas Profiling Report
 if uploaded_file is not None:
     @st.cache
