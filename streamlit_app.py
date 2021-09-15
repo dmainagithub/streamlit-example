@@ -61,3 +61,55 @@ else:
         st.write('---')
         st.header('**Pandas Profiling Report**')
         st_profile_report(pr)
+
+        
+app = dash.Dash(__name__)
+
+colors = {
+    'background': '#111111',
+    'text': '#7FDBFF'
+}    
+df = pd.DataFrame({
+    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
+    "Amount": [4, 1, 2, 2, 4, 5],
+    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
+})    
+
+fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
+
+fig.update_layout(
+    plot_bgcolor=colors['background'],
+    paper_bgcolor=colors['background'],
+    font_color=colors['text']
+)
+    
+app.layout = html.Div([
+    
+html.H1("Web Application Dashboards with Dash", style={'text-align':'center'}),
+    
+   dcc.Dropdown(id="slct_year",
+                 options=[
+                    {"label":"2015", "value":2015},
+                    {"label":"2016", "value":2016},
+                    {"label":"2017", "value":2017},
+                    {"label":"2016", "value":2016}],
+                multi=False,
+                value=2015,
+                 style={'width':"40%"}
+    ),
+
+
+    html.Div(id='output_container', children=[]),    
+    html.Br(),
+
+    dcc.Graph(
+        id='my_bee_map', 
+        figure=fig
+    )
+
+])
+
+if __name__ == '__main__':
+     app.run_server(debug=True)
+    
+  
