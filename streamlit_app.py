@@ -6,9 +6,13 @@ from streamlit_pandas_profiling import st_profile_report
 
 import plotly.express as px
 
+import dash
 from dash import dcc
 from dash import html
 from dash.dependencies import Input, Output
+
+
+app = dash.Dash(__name__)
 
 # Web App Title
 st.markdown('''
@@ -65,7 +69,7 @@ html.H1("Web Application Dashboards with Dash", style={'text-align':'center'}),
 
     dcc.Graph(
         id='my_bee_map', 
-        figure=[]
+        figure=fig
     )
 
 ])
